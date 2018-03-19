@@ -170,6 +170,9 @@ export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
   FunctionExpression: function*(node: es.FunctionExpression, context: Context) {
     return new Closure(node, currentFrame(context), context)
   },
+  ArrowFunctionExpression: function*(node: es.ArrowFunctionExpression, context: Context) {
+    return new Closure(node, currentFrame(context), context)
+  },
   Identifier: function*(node: es.Identifier, context: Context) {
     return getVariable(context, node.name)
   },

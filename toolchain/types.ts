@@ -127,8 +127,8 @@ export interface Frame {
  * Models function value in the interpreter environment.
  */
 export class Closure {
-  /** Keep track how many lambdas are created */
-  private static lambdaCtr = 0
+  /** Keep track how many closures are created */
+  private static closureCount = 0
 
   /** Unique ID defined for anonymous closure */
   public name: string
@@ -137,16 +137,11 @@ export class Closure {
   public fun: Function
 
   constructor(
-    public node: es.FunctionExpression,
+    public node: es.Function, 
     public frame: Frame,
     context: Context
   ) {
-    this.node = node
-    if (this.node.id) {
-      this.name = this.node.id.name
-    } else {
-      this.name = `Anonymous${++Closure.lambdaCtr}`
-    }
+    this.name = `Closure${++Closure.closureCount}`
     this.fun = closureToJS(this, context, this.name)
   }
 }

@@ -15,15 +15,9 @@ function sourceEval(cmd: string, context: any, filename: any, callback: any): an
   let promise = runInContext(cmd, sourceCtxt)
   promise.then((obj) => {
     if (obj.status == 'finished') {
-      callback(
-        JSON.stringify(sourceCtxt, null, 2) + '\n' + obj.value + '\nOK',
-        null
-      )
+      callback(null, obj.value)
     } else {
-      callback(
-        JSON.stringify(sourceCtxt, null, 2) + '\nERR', 
-        null
-      )
+      callback(fmtError(sourceCtxt), null)
     }
   })
 }
@@ -33,5 +27,5 @@ export function startRepl() {
     prompt: '>>> ',
       eval: sourceEval
   })
-  // runInContext('var __week__ = ' + sourceCtxt.week + ';', sourceCtxt)
+  runInContext('var __week__ = ' + sourceCtxt.week + ';', sourceCtxt)
 }
